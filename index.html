@@ -3,44 +3,71 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sitio estatico desplegado</title>
+  <title>En memoria de Gaspi</title>
   <style>
     :root {
-      color-scheme: light;
-      --ink: #17202a;
-      --muted: #5d6b78;
-      --paper: #f7f5ef;
-      --line: #d8d4ca;
-      --accent: #0f766e;
-      --accent-2: #b45309;
-      --accent-3: #2563eb;
+      color-scheme: dark;
+      --ink: #f8f4ea;
+      --muted: #c9c0b0;
+      --bg: #101418;
+      --panel: #191f24;
+      --line: rgba(248, 244, 234, 0.16);
+      --gold: #d9a441;
+      --teal: #2f8f83;
+      --cream: #f2dfbc;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
       color: var(--ink);
-      background: var(--paper);
+      background: var(--bg);
       min-height: 100vh;
     }
 
-    main {
-      min-height: 100vh;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero {
+      min-height: 88vh;
+      position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-      align-items: center;
-      gap: 48px;
+      align-items: end;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(16, 20, 24, 0.9), rgba(16, 20, 24, 0.32) 54%, rgba(16, 20, 24, 0.82)),
+        linear-gradient(0deg, rgba(16, 20, 24, 0.98), rgba(16, 20, 24, 0.18) 48%);
+      z-index: 1;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
       width: min(1120px, calc(100% - 40px));
       margin: 0 auto;
-      padding: 48px 0;
-    }
-
-    .copy {
+      padding: 0 0 72px;
       display: grid;
-      gap: 24px;
-      align-content: center;
+      gap: 22px;
     }
 
     .eyebrow {
@@ -48,199 +75,246 @@
       align-items: center;
       width: fit-content;
       gap: 10px;
-      padding: 8px 12px;
+      padding: 8px 13px;
       border: 1px solid var(--line);
       border-radius: 999px;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.58);
+      background: rgba(16, 20, 24, 0.54);
+      color: var(--cream);
       font-size: 14px;
+      backdrop-filter: blur(10px);
     }
 
-    .dot {
+    .flame {
       width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #16a34a;
-      box-shadow: 0 0 0 6px rgba(22, 163, 74, 0.12);
+      height: 16px;
+      border-radius: 10px 10px 10px 2px;
+      background: var(--gold);
+      box-shadow: 0 0 22px rgba(217, 164, 65, 0.86);
+      transform: rotate(38deg);
     }
 
     h1 {
       margin: 0;
-      max-width: 760px;
-      font-size: clamp(44px, 8vw, 84px);
+      max-width: 900px;
+      font-size: clamp(46px, 8vw, 92px);
       line-height: 0.95;
       letter-spacing: 0;
     }
 
     .lead {
       margin: 0;
-      max-width: 620px;
+      max-width: 680px;
       color: var(--muted);
       font-size: 20px;
       line-height: 1.55;
     }
 
-    .actions {
+    .section {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 64px 0 76px;
+    }
+
+    .section-header {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 24px;
     }
 
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 44px;
-      padding: 0 18px;
-      border-radius: 8px;
-      border: 1px solid #0b5f59;
-      background: var(--accent);
-      color: white;
-      font-weight: 700;
-      text-decoration: none;
+    h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: 0;
     }
 
-    .hint {
+    .section-header p {
+      margin: 0;
+      max-width: 430px;
       color: var(--muted);
-      font-size: 15px;
+      line-height: 1.55;
     }
 
-    .visual {
-      position: relative;
-      min-height: 520px;
+    .gallery {
+      display: grid;
+      grid-template-columns: 1.25fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .memory {
+      overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background:
-        linear-gradient(135deg, rgba(15, 118, 110, 0.12), transparent 38%),
-        linear-gradient(315deg, rgba(180, 83, 9, 0.14), transparent 42%),
-        #fffdf8;
-      overflow: hidden;
-      box-shadow: 0 24px 70px rgba(23, 32, 42, 0.12);
+      background: var(--panel);
     }
 
-    .screen {
-      position: absolute;
-      inset: 46px 34px auto;
-      height: 300px;
-      border: 1px solid #c8c1b5;
-      border-radius: 8px;
-      background: #17202a;
-      overflow: hidden;
+    .memory.featured {
+      min-height: 540px;
     }
 
-    .screen-bar {
-      height: 34px;
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stack .memory {
+      min-height: 260px;
+    }
+
+    .caption {
+      min-height: 72px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 0 14px;
-      background: #25313d;
-    }
-
-    .screen-bar span {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #f97316;
-    }
-
-    .screen-bar span:nth-child(2) { background: #facc15; }
-    .screen-bar span:nth-child(3) { background: #22c55e; }
-
-    .code {
-      padding: 26px;
-      display: grid;
+      justify-content: space-between;
       gap: 14px;
+      padding: 16px 18px;
+      border-top: 1px solid var(--line);
     }
 
-    .code-line {
-      height: 12px;
-      border-radius: 999px;
-      background: #d8f3ef;
-      opacity: 0.9;
+    .caption strong {
+      font-size: 17px;
     }
 
-    .code-line:nth-child(2) { width: 72%; background: #fed7aa; }
-    .code-line:nth-child(3) { width: 86%; background: #bfdbfe; }
-    .code-line:nth-child(4) { width: 54%; }
+    .caption span {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: right;
+    }
 
-    .network {
-      position: absolute;
-      left: 34px;
-      right: 34px;
-      bottom: 34px;
+    .closing {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      margin-top: 38px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(25, 31, 36, 0.72);
     }
 
-    .tile {
-      min-height: 116px;
-      border: 1px solid #d8d4ca;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.86);
-      padding: 16px;
-      display: grid;
-      align-content: space-between;
+    .closing p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
     }
 
-    .icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
+    .mark {
+      width: 62px;
+      height: 62px;
       display: grid;
       place-items: center;
-      color: white;
+      border-radius: 50%;
+      border: 1px solid rgba(217, 164, 65, 0.42);
+      color: var(--gold);
       font-weight: 800;
-      background: var(--accent);
+      background: rgba(217, 164, 65, 0.12);
     }
 
-    .tile:nth-child(2) .icon { background: var(--accent-2); }
-    .tile:nth-child(3) .icon { background: var(--accent-3); }
-    .tile strong { font-size: 15px; }
+    @media (max-width: 860px) {
+      .hero {
+        min-height: 78vh;
+      }
 
-    @media (max-width: 840px) {
-      main { grid-template-columns: 1fr; gap: 28px; padding: 28px 0; }
-      .visual { min-height: 460px; }
+      .hero-content {
+        padding-bottom: 48px;
+      }
+
+      .section-header,
+      .gallery,
+      .closing {
+        grid-template-columns: 1fr;
+      }
+
+      .section-header {
+        align-items: start;
+      }
+
+      .memory.featured,
+      .stack .memory {
+        min-height: 360px;
+      }
     }
 
     @media (max-width: 560px) {
-      main { width: min(100% - 28px, 1120px); }
-      h1 { font-size: 44px; }
-      .lead { font-size: 18px; }
-      .screen { inset: 24px 18px auto; }
-      .network { left: 18px; right: 18px; grid-template-columns: 1fr; }
-      .tile { min-height: 84px; grid-template-columns: auto 1fr; align-items: center; gap: 12px; }
+      .hero-content,
+      .section {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .hero {
+        min-height: 72vh;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+
+      .lead {
+        font-size: 18px;
+      }
+
+      .caption {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .caption span {
+        text-align: left;
+      }
     }
   </style>
 </head>
 <body>
   <main>
-    <section class="copy" aria-label="Estado del sitio">
-      <div class="eyebrow"><span class="dot"></span> GitHub Pages activo</div>
-      <h1>Pagina estatica desplegada</h1>
-      <p class="lead">Este sitio fue publicado en GitHub Pages desde la cuenta pablonadal. Es una pagina HTML y CSS servida publicamente desde GitHub.</p>
-      <div class="actions">
-        <a class="button" href="./">Recargar sitio</a>
-        <span class="hint">HTML y CSS en un solo archivo</span>
+    <section class="hero" aria-label="Homenaje principal">
+      <img src="assets/gaspi-estrella.png" alt="Cielo nocturno con estrella brillante y flores, con texto En memoria de Gaspi">
+      <div class="hero-content">
+        <div class="eyebrow"><span class="flame"></span> Homenaje conmemorativo</div>
+        <h1>En memoria de Gaspi</h1>
+        <p class="lead">Un espacio simple para recordar, acompaniar y dejar una imagen de luz en su nombre.</p>
       </div>
     </section>
 
-    <section class="visual" aria-label="Ilustracion del despliegue">
-      <div class="screen">
-        <div class="screen-bar"><span></span><span></span><span></span></div>
-        <div class="code" aria-hidden="true">
-          <div class="code-line"></div>
-          <div class="code-line"></div>
-          <div class="code-line"></div>
-          <div class="code-line"></div>
+    <section class="section" aria-label="Imagenes conmemorativas">
+      <div class="section-header">
+        <h2>Recuerdo y luz</h2>
+        <p>Tres imagenes con tono sobrio para acompaniar la conmemoracion, publicadas junto con la pagina en GitHub Pages.</p>
+      </div>
+
+      <div class="gallery">
+        <article class="memory featured">
+          <img src="assets/gaspi-memoria.png" alt="Mesa con velas, flores y marco con el nombre Gaspi">
+          <div class="caption">
+            <strong>Una luz encendida</strong>
+            <span>Velas y flores en su memoria</span>
+          </div>
+        </article>
+
+        <div class="stack">
+          <article class="memory">
+            <img src="assets/gaspi-estrella.png" alt="Paisaje nocturno con estrella y flores en memoria de Gaspi">
+            <div class="caption">
+              <strong>En memoria</strong>
+              <span>Un cielo sereno para recordarlo</span>
+            </div>
+          </article>
+
+          <article class="memory">
+            <img src="assets/gaspi-presente.png" alt="Repisa con fotos, velas, flores y cartel Gaspi siempre presente">
+            <div class="caption">
+              <strong>Siempre presente</strong>
+              <span>Un rincón de homenaje</span>
+            </div>
+          </article>
         </div>
       </div>
-      <div class="network">
-        <div class="tile"><div class="icon">GH</div><strong>Repositorio</strong></div>
-        <div class="tile"><div class="icon">IP</div><strong>Pages</strong></div>
-        <div class="tile"><div class="icon">OK</div><strong>Disponible</strong></div>
+
+      <div class="closing">
+        <p>La pagina mantiene un tono respetuoso y usa imagenes simbolicas, sin representar una persona real identificable.</p>
+        <div class="mark">G</div>
       </div>
     </section>
   </main>
